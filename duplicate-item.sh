@@ -47,7 +47,7 @@ done
 
 find $itemPathOut -type f -exec sed -i -e "s/${itemIn}/${itemOut}/g" {} \;
 find $itemPathOut -type f -exec sed -i -e "s/${itemIn^}/${itemOut^}/g" {} \;
-
+find $itemPathOut -type f -exec sed -i -e "s/${itemIn^^}/${itemOut^^}/g" {} \;
 
 ls -laR $itemPathOut
 echo ""
