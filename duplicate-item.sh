@@ -1,11 +1,11 @@
 #!/bin/bash
 
 if [ $# -lt 1 ]; then
-    echo "please provide item directory in input"
+    echo "please provide item directory in input - in snake/spinal case"
     exit 1
 fi
 if [ $# -lt 2 ]; then
-    echo "please provide item directory for output"
+    echo "please provide item directory for output - in snake/spinal case"
     exit 1
 fi
 
@@ -45,9 +45,19 @@ find $itemPathIn -type f | while read FILE ; do
     cp "${FILE}" "${newfile}";
 done
 
+# snake case
 find $itemPathOut -type f -exec sed -i -e "s/${itemIn}/${itemOut}/g" {} \;
+
+# capitalize
 find $itemPathOut -type f -exec sed -i -e "s/${itemIn^}/${itemOut^}/g" {} \;
+
+# uppercase
 find $itemPathOut -type f -exec sed -i -e "s/${itemIn^^}/${itemOut^^}/g" {} \;
+
+# camel case
+itemInCamel=$(sed -r 's/(^|-)(\w)/\U\2/g' <<< $itemIn)
+itemOutCamel=$(sed -r 's/(^|-)(\w)/\U\2/g' <<< $itemOut)
+find $itemPathOut -type f -exec sed -i -e "s/${itemInCamel}/${itemOutCamel}/g" {} \;
 
 ls -laR $itemPathOut
 echo ""
